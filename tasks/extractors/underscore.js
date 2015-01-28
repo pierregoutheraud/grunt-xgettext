@@ -89,7 +89,7 @@ function tokenize(substring) {
                 token = { type: "string", value: "", quote: char };
             } else if (/\d/.test(char)) {
                 token = { type: "number", value: char };
-            } else if (/\s/.test(char)) {
+            } else if (/\s/.test(char) || char == ",") {
                 // continue
             } else {
                 token = { type: "identifier", value: char };
@@ -113,10 +113,11 @@ module.exports = function(file, options) {
         fn = _.flatten([ options.functionName ]);
 
     _.each(fn, function(func) {
-        var regex = new RegExp("\\<\\%\\s*" + func + "\\s+(.*?)\\%\\>", "g");
+        var regex = new RegExp("\\<\\%.*" + func + "\\s*\\((.*)\\).*\\%\\>", "g");
         var result;
         while ((result = regex.exec(contents)) !== null) {
             var tokens = tokenize(result[1]);
+
             if (tokens.length === 0 || tokens[0].type !== "string") {
                 continue;
             }
