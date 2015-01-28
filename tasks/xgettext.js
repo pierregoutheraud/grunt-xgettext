@@ -69,6 +69,7 @@ module.exports = function(grunt) {
             if (definition.plural) {
                 buffer += "msgid_plural " + escapeString(definition.plural) + "\n";
                 buffer += "msgstr[0] " + escapeString(definition.message) + "\n";
+                buffer += "msgstr[1] " + escapeString(definition.message) + "\n";
             } else {
                 buffer += "msgstr " + escapeString(definition.message) + "\n";
             }
